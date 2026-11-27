@@ -3,7 +3,7 @@ import tseslint from 'typescript-eslint';
 import playwright from 'eslint-plugin-playwright';
 
 export default tseslint.config(
-  { ignores: ['node_modules/', 'reports/', 'playwright-report/', 'test-results/'] },
+  { ignores: ['node_modules/', 'reports/', 'playwright-report/', 'test-results/', '.features-gen/'] },
   js.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   {
@@ -20,6 +20,11 @@ export default tseslint.config(
       'playwright/no-wait-for-timeout': 'error',
       'playwright/expect-expect': ['error', { assertFunctionNames: ['expectBookingSchema', 'expectJson'] }],
     },
+  },
+  {
+    // Steps do Cucumber rodam dentro dos testes gerados pelo playwright-bdd.
+    files: ['tests/e2e/steps/**/*.ts'],
+    rules: { 'playwright/no-standalone-expect': 'off' },
   },
   {
     rules: {

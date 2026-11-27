@@ -8,7 +8,7 @@ const relatorio = JSON.parse(readFileSync(entrada, 'utf-8'));
 
 const linhas = [];
 function percorrer(suite, caminho = []) {
-  const titulo = suite.title && !suite.title.endsWith('.ts') ? [...caminho, suite.title] : caminho;
+  const titulo = suite.title && !/\.(ts|js)$/.test(suite.title) ? [...caminho, suite.title] : caminho;
   for (const spec of suite.specs ?? []) {
     for (const t of spec.tests) {
       const ultimo = t.results.at(-1) ?? {};

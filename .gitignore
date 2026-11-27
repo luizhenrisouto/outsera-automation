@@ -3,3 +3,4 @@ reports/
 playwright-report/
 test-results/
 .env
+.features-gen/

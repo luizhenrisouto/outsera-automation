@@ -1,0 +1,171 @@
+<testsuites id="" name="" tests="19" failures="0" skipped="0" errors="0" time="29.656474">
+<testsuite name=".features-gen\e2e\tests\e2e\features\checkout.feature.spec.js" timestamp="2026-11-27T15:44:27.858Z" hostname="e2e" tests="7" failures="0" skipped="0" time="97.52" errors="0">
+<testcase name="Checkout no e-commerce Demoblaze › Carrinho lista os produtos adicionados e soma o total" classname=".features-gen\e2e\tests\e2e\features\checkout.feature.spec.js" time="13.098">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\tests-e2e-features-checkou-3dc49--adicionados-e-soma-o-total-e2e\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Checkout no e-commerce Demoblaze › Compra completa com dados válidos" classname=".features-gen\e2e\tests\e2e\features\checkout.feature.spec.js" time="12.576">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\tests-e2e-features-checkou-c8bc8--completa-com-dados-válidos-e2e\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Checkout no e-commerce Demoblaze › Compra sem nome e sem cartão é recusada" classname=".features-gen\e2e\tests\e2e\features\checkout.feature.spec.js" time="13.134">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\tests-e2e-features-checkou-e641f-ome-e-sem-cartão-é-recusada-e2e\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Checkout no e-commerce Demoblaze › Compra com número de cartão contendo letras é recusada" classname=".features-gen\e2e\tests\e2e\features\checkout.feature.spec.js" time="14.3">
+<properties>
+<property name="bug" value="DB-01: Demoblaze conclui a compra com cartão contendo letras; o esperado é recusar o número.">
+</property>
+<property name="fail" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\tests-e2e-features-checkou-6e4a9--contendo-letras-é-recusada-e2e\test-finished-1.png]]
+
+[[ATTACHMENT|..\artifacts\tests-e2e-features-checkou-6e4a9--contendo-letras-é-recusada-e2e\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Checkout no e-commerce Demoblaze › Compra com número de cartão curto demais é recusada" classname=".features-gen\e2e\tests\e2e\features\checkout.feature.spec.js" time="14.952">
+<properties>
+<property name="bug" value="DB-02: Demoblaze conclui a compra com cartão de 4 dígitos; o esperado é recusar o número.">
+</property>
+<property name="fail" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\tests-e2e-features-checkou-46c4d-tão-curto-demais-é-recusada-e2e\test-finished-1.png]]
+
+[[ATTACHMENT|..\artifacts\tests-e2e-features-checkou-46c4d-tão-curto-demais-é-recusada-e2e\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Checkout no e-commerce Demoblaze › Compra com endereço de entrega incompleto é recusada" classname=".features-gen\e2e\tests\e2e\features\checkout.feature.spec.js" time="14.553">
+<properties>
+<property name="bug" value="DB-03: Demoblaze conclui a compra sem país e cidade de entrega; o esperado é exigir o endereço.">
+</property>
+<property name="fail" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\tests-e2e-features-checkou-814a9-trega-incompleto-é-recusada-e2e\test-finished-1.png]]
+
+[[ATTACHMENT|..\artifacts\tests-e2e-features-checkou-814a9-trega-incompleto-é-recusada-e2e\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Checkout no e-commerce Demoblaze › Comprovante mostra a data do dia da compra" classname=".features-gen\e2e\tests\e2e\features\checkout.feature.spec.js" time="14.907">
+<properties>
+<property name="bug" value="DB-04: O comprovante da compra mostra o mês anterior ao atual (mês do JavaScript contado a partir de 0).">
+</property>
+<property name="fail" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\tests-e2e-features-checkou-5be13-tra-a-data-do-dia-da-compra-e2e\test-finished-1.png]]
+
+[[ATTACHMENT|..\artifacts\tests-e2e-features-checkou-5be13-tra-a-data-do-dia-da-compra-e2e\error-context.md]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name=".features-gen\e2e\tests\e2e\features\login.feature.spec.js" timestamp="2026-11-27T15:44:27.858Z" hostname="e2e" tests="12" failures="0" skipped="0" time="27.018" errors="0">
+<testcase name="Login e navegação até o formulário de checkout (Sauce Demo) › Login com usuário válido abre a vitrine de produtos" classname=".features-gen\e2e\tests\e2e\features\login.feature.spec.js" time="3.164">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\tests-e2e-features-login.f-67d1a--abre-a-vitrine-de-produtos-e2e\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Login e navegação até o formulário de checkout (Sauce Demo) › Usuário logado navega até o formulário de checkout" classname=".features-gen\e2e\tests\e2e\features\login.feature.spec.js" time="3.341">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\tests-e2e-features-login.f-0df79-té-o-formulário-de-checkout-e2e\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Login e navegação até o formulário de checkout (Sauce Demo) › Formulário de checkout preenchido avança para a revisão do pedido" classname=".features-gen\e2e\tests\e2e\features\login.feature.spec.js" time="2.306">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\tests-e2e-features-login.f-e753f-ça-para-a-revisão-do-pedido-e2e\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Login e navegação até o formulário de checkout (Sauce Demo) › Login recusado para usuário &lt;perfil&gt; › Login recusado para usuário com senha incorreta" classname=".features-gen\e2e\tests\e2e\features\login.feature.spec.js" time="1.766">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\tests-e2e-features-login.f-18d57-usuário-com-senha-incorreta-e2e\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Login e navegação até o formulário de checkout (Sauce Demo) › Login recusado para usuário &lt;perfil&gt; › Login recusado para usuário inexistente" classname=".features-gen\e2e\tests\e2e\features\login.feature.spec.js" time="1.823">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\tests-e2e-features-login.f-c65f3-do-para-usuário-inexistente-e2e\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Login e navegação até o formulário de checkout (Sauce Demo) › Login recusado para usuário &lt;perfil&gt; › Login recusado para usuário bloqueado" classname=".features-gen\e2e\tests\e2e\features\login.feature.spec.js" time="2.445">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\tests-e2e-features-login.f-c8b83-sado-para-usuário-bloqueado-e2e\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Login e navegação até o formulário de checkout (Sauce Demo) › Login recusado para usuário &lt;perfil&gt; › Login recusado para usuário sem usuário" classname=".features-gen\e2e\tests\e2e\features\login.feature.spec.js" time="2.136">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\tests-e2e-features-login.f-f61b5-do-para-usuário-sem-usuário-e2e\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Login e navegação até o formulário de checkout (Sauce Demo) › Login recusado para usuário &lt;perfil&gt; › Login recusado para usuário sem senha" classname=".features-gen\e2e\tests\e2e\features\login.feature.spec.js" time="1.906">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\tests-e2e-features-login.f-6ad6c-sado-para-usuário-sem-senha-e2e\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Login e navegação até o formulário de checkout (Sauce Demo) › Página interna não abre sem login" classname=".features-gen\e2e\tests\e2e\features\login.feature.spec.js" time="2.095">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\tests-e2e-features-login.f-fba03--interna-não-abre-sem-login-e2e\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Login e navegação até o formulário de checkout (Sauce Demo) › Formulário de checkout sem o campo obrigatório &lt;campo&gt; › Formulário de checkout sem o campo obrigatório First Name" classname=".features-gen\e2e\tests\e2e\features\login.feature.spec.js" time="2.314">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\tests-e2e-features-login.f-9804e-ampo-obrigatório-First-Name-e2e\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Login e navegação até o formulário de checkout (Sauce Demo) › Formulário de checkout sem o campo obrigatório &lt;campo&gt; › Formulário de checkout sem o campo obrigatório Last Name" classname=".features-gen\e2e\tests\e2e\features\login.feature.spec.js" time="1.864">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\tests-e2e-features-login.f-00fea-campo-obrigatório-Last-Name-e2e\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Login e navegação até o formulário de checkout (Sauce Demo) › Formulário de checkout sem o campo obrigatório &lt;campo&gt; › Formulário de checkout sem o campo obrigatório Postal Code" classname=".features-gen\e2e\tests\e2e\features\login.feature.spec.js" time="1.858">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\tests-e2e-features-login.f-2e602-mpo-obrigatório-Postal-Code-e2e\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+</testsuites>

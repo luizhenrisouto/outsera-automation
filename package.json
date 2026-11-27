@@ -3,14 +3,16 @@
   "version": "1.0.0",
   "description": "Avaliação Outsera: automação de testes de API, E2E, CI/CD, carga e mobile",
   "scripts": {
-    "test": "playwright test",
+    "test": "bddgen && playwright test",
     "test:api": "playwright test --project=api",
+    "test:e2e": "bddgen && playwright test --project=e2e",
     "report": "playwright show-report reports/html",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "check": "npm run lint && npm run typecheck",
     "resumo": "node scripts/gerar-resumo.mjs",
-    "evidencias:api": "node scripts/salvar-evidencias.mjs api"
+    "evidencias:api": "node scripts/salvar-evidencias.mjs api",
+    "evidencias:e2e": "node scripts/salvar-evidencias.mjs e2e"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +25,7 @@
     "dotenv": "^18.0.10",
     "eslint": "^10.15.0",
     "eslint-plugin-playwright": "^2.12.2",
+    "playwright-bdd": "^9.2.1",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.74.0",
     "zod": "^4.6.7"
