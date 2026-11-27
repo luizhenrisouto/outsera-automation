@@ -70,6 +70,7 @@ A última execução de cada bloco fica versionada em [`evidencias/api`](evidenc
 
 ```
 .
+├── .github/workflows/ci.yml   # pipeline do GitHub Actions: qualidade, API e E2E a cada commit
 ├── playwright.config.ts        # projetos (api, e2e), reporters (list, html, junit, json), retries só no CI
 ├── src/api/
 │   ├── clients/booking.client.ts  # cliente da API: rotas, headers e autenticação em um só lugar
@@ -166,6 +167,29 @@ O Demoblaze só valida nome e cartão em branco ("Please fill out Name and Credi
 - O Sauce Demo não tem campos de cartão nem de endereço no checkout; por isso a Tarefa 2 usa o Demoblaze.
 - O Demoblaze avisa com `alert()` nativo e não tem validação de cartão nem de endereço, então os negativos de cartão e endereço são bugs documentados, não recusas reais.
 - O carrinho do Demoblaze é ligado a um cookie anônimo; cada cenário roda num contexto novo do navegador, então os carrinhos não se misturam entre testes paralelos.
+
+## 3. Pipeline de CI/CD (GitHub Actions)
+
+Workflow em [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Roda a cada push em qualquer branch, em pull requests para o `main` e sob demanda (`workflow_dispatch`).
+
+```
+qualidade (lint + typecheck) ──┬──> api (Playwright, Restful-Booker)
+                               └──> e2e (Cucumber/playwright-bdd, Chromium)
+```
+
+- **Gate de qualidade primeiro.** Lint e typecheck rodam antes; se falharem, as suítes nem começam.
+- **API e E2E em paralelo**, em jobs separados: uma falha numa suíte não esconde o resultado da outra, e cada uma tem o seu relatório.
+- **Execução eficiente.** Cache do npm e do Chromium (chave pela versão do Playwright), `npm ci` para instalação reproduzível, e um commit novo na mesma branch cancela a execução anterior.
+- **Comportamento de CI no Playwright.** Com `CI=true`, o `playwright.config.ts` liga 1 retry (o resumo marca o teste como "Instável" se só passar no retry) e proíbe `test.only` esquecido.
+- **Mobile.** O job de mobile entra no pipeline junto com o bloco 5.
+
+### Relatório das execuções
+
+Cada execução fica na aba **Actions** do repositório:
+- **Resumo na própria página da execução** (`$GITHUB_STEP_SUMMARY`): a tabela de cenários, positivos e negativos, bugs confirmados e falhas inesperadas, gerada por `scripts/gerar-resumo.mjs`.
+- **Artefatos para download** (`relatorio-api` e `relatorio-e2e`, guardados por 14 dias): relatório HTML do Playwright, JUnit, JSON e, no E2E, os prints de todos os cenários e vídeo e trace dos que falharem.
+
+Os bugs documentados (`test.fail()` na API e `@fail` no E2E) não quebram o pipeline: ele só fica vermelho com falha inesperada ou bug corrigido sem revisão do teste.
 
 ## Uso de IA
 
