@@ -255,6 +255,16 @@ O que os números mostram:
 - O mock guarda tudo em memória e reproduz o comportamento da listagem, não a infraestrutura da API real (banco, rede, Heroku).
 - Para o k6 não virar ele mesmo o gargalo, o script não converte a lista de JSON: confere o status e o formato e mede o tamanho.
 
+## Próximo passo: triagem das falhas com IA
+
+Neste pipeline, as falhas da aplicação já chegam classificadas: são os bugs documentados com `test.fail()` e `@fail`. No dia a dia, porém, a falha que chega é inesperada, e alguém precisa decidir se é defeito do produto, teste instável ou teste quebrado. Para essa etapa eu mantenho um projeto à parte: [triagem-de-falhas-ia](https://github.com/luizhenrisouto/triagem-de-falhas-ia).
+
+Quando um teste falha, um fluxo no n8n envia o erro, o stack, o trecho do teste e o print para um modelo de IA. O modelo classifica a falha, e o fluxo abre ou atualiza uma issue no GitHub sem duplicar. As falhas desse projeto são plantadas de propósito, com gabarito, então o acerto exibido na [página de resultados](https://luizhenrisouto.github.io/triagem-de-falhas-ia/) é medido, não declarado. As [issues abertas pela IA](https://github.com/luizhenrisouto/triagem-de-falhas-ia/issues?q=label%3Atriagem-ia) ficam públicas.
+
+O encaixe aqui seria direto: o fluxo recebe relatório JSON do Playwright ou JUnit XML, e os jobs `api` e `e2e` deste pipeline já geram os dois (`reports/json/results.json` e `reports/junit/results.xml`). Bastaria um passo a mais no workflow, rodando só quando houver falha inesperada, com a chave do modelo guardada como segredo do repositório.
+
+Não liguei a triagem nesta avaliação, por dois motivos: o enunciado não pede isso, e ela exigiria segredos e um n8n rodando só para triar falhas que hoje não existem.
+
 ## Uso de IA
 
 Projeto desenvolvido com apoio de IA (Claude Code), da mesma forma que trabalho no dia a dia: eu defino a estratégia, os cenários e os critérios, a IA acelera a escrita, e todo o código passa por revisão, lint, typecheck e execução repetida antes de entrar.
