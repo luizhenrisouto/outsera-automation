@@ -1,0 +1,155 @@
+<testsuites id="" name="" tests="33" failures="0" skipped="0" errors="0" time="6.426756">
+<testsuite name="tests\api\auth.spec.ts" timestamp="2026-11-27T15:24:14.970Z" hostname="api" tests="4" failures="0" skipped="0" time="2.094" errors="0">
+<testcase name="POST /auth › gera token com credenciais válidas" classname="tests\api\auth.spec.ts" time="0.532">
+</testcase>
+<testcase name="POST /auth › não emite token com senha incorreta" classname="tests\api\auth.spec.ts" time="0.515">
+</testcase>
+<testcase name="POST /auth › não emite token para usuário inexistente" classname="tests\api\auth.spec.ts" time="0.549">
+</testcase>
+<testcase name="POST /auth › responde 401 para credenciais inválidas" classname="tests\api\auth.spec.ts" time="0.498">
+<properties>
+<property name="bug" value="A API responde 200 com {&quot;reason&quot;:&quot;Bad credentials&quot;}; o esperado para falha de autenticação é 401.">
+</property>
+<property name="fail" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\auth-POST-auth-responde-401-para-credenciais-inválidas-api\error-context.md]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="tests\api\booking-delete.spec.ts" timestamp="2026-11-27T15:24:14.970Z" hostname="api" tests="5" failures="0" skipped="0" time="4.868" errors="0">
+<testcase name="DELETE /booking/:id › apaga a reserva com token" classname="tests\api\booking-delete.spec.ts" time="1.089">
+</testcase>
+<testcase name="DELETE /booking/:id › responde 403 sem token e mantém a reserva" classname="tests\api\booking-delete.spec.ts" time="1.091">
+</testcase>
+<testcase name="DELETE /booking/:id › responde 403 com token inválido" classname="tests\api\booking-delete.spec.ts" time="0.845">
+</testcase>
+<testcase name="DELETE /booking/:id › responde 200 ou 204 ao apagar" classname="tests\api\booking-delete.spec.ts" time="0.848">
+<properties>
+<property name="bug" value="A API responde 201 Created ao apagar; o esperado é 200 ou 204.">
+</property>
+<property name="fail" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\booking-delete-DELETE-book-db5c9-sponde-200-ou-204-ao-apagar-api\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="DELETE /booking/:id › responde 404 ao apagar reserva já apagada" classname="tests\api\booking-delete.spec.ts" time="0.995">
+<properties>
+<property name="bug" value="A segunda exclusão responde 405; o esperado é 404.">
+</property>
+<property name="fail" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\booking-delete-DELETE-book-5842c-o-apagar-reserva-já-apagada-api\error-context.md]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="tests\api\booking-get.spec.ts" timestamp="2026-11-27T15:24:14.970Z" hostname="api" tests="6" failures="0" skipped="0" time="4.141" errors="0">
+<testcase name="GET /booking › lista as reservas com o contrato esperado" classname="tests\api\booking-get.spec.ts" time="1.005">
+</testcase>
+<testcase name="GET /booking › filtra por nome e sobrenome" classname="tests\api\booking-get.spec.ts" time="0.873">
+</testcase>
+<testcase name="GET /booking › filtro sem resultado devolve lista vazia" classname="tests\api\booking-get.spec.ts" time="0.444">
+</testcase>
+<testcase name="GET /booking/:id › devolve a reserva pelo id" classname="tests\api\booking-get.spec.ts" time="0.904">
+</testcase>
+<testcase name="GET /booking/:id › responde 404 para id inexistente" classname="tests\api\booking-get.spec.ts" time="0.465">
+</testcase>
+<testcase name="GET /booking/:id › responde 404 para id não numérico" classname="tests\api\booking-get.spec.ts" time="0.45">
+</testcase>
+</testsuite>
+<testsuite name="tests\api\booking-post.spec.ts" timestamp="2026-11-27T15:24:14.970Z" hostname="api" tests="10" failures="0" skipped="0" time="5.182" errors="0">
+<testcase name="POST /booking › cria a reserva e a persiste" classname="tests\api\booking-post.spec.ts" time="0.901">
+</testcase>
+<testcase name="POST /booking › cria a reserva sem o campo opcional additionalneeds" classname="tests\api\booking-post.spec.ts" time="0.75">
+</testcase>
+<testcase name="POST /booking › rejeita JSON malformado com 400" classname="tests\api\booking-post.spec.ts" time="0.432">
+</testcase>
+<testcase name="POST /booking › rejeita reserva sem campo obrigatório com 400" classname="tests\api\booking-post.spec.ts" time="0.451">
+<properties>
+<property name="bug" value="Sem &quot;firstname&quot;, a API responde 500 (erro interno); o esperado é 400 com a validação do campo.">
+</property>
+<property name="fail" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\booking-post-POST-booking--2513e-m-campo-obrigatório-com-400-api\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="POST /booking › rejeita tipo inválido em totalprice com 400" classname="tests\api\booking-post.spec.ts" time="0.451">
+<properties>
+<property name="bug" value="Com totalprice &quot;abc&quot;, a API grava a reserva com totalprice null e responde 200.">
+</property>
+<property name="fail" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\booking-post-POST-booking--ebac8-álido-em-totalprice-com-400-api\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="POST /booking › rejeita corpo vazio com 400" classname="tests\api\booking-post.spec.ts" time="0.441">
+<properties>
+<property name="bug" value="Com corpo vazio, a API responde 500; o esperado é 400.">
+</property>
+<property name="fail" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\booking-post-POST-booking-rejeita-corpo-vazio-com-400-api\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Métodos não suportados em /booking › OPTIONS anuncia apenas GET, HEAD e POST" classname="tests\api\booking-post.spec.ts" time="0.441">
+</testcase>
+<testcase name="Métodos não suportados em /booking › PUT na coleção não é aceito" classname="tests\api\booking-post.spec.ts" time="0.443">
+</testcase>
+<testcase name="Métodos não suportados em /booking › PATCH na coleção não é aceito" classname="tests\api\booking-post.spec.ts" time="0.432">
+</testcase>
+<testcase name="Métodos não suportados em /booking › DELETE na coleção não é aceito" classname="tests\api\booking-post.spec.ts" time="0.44">
+</testcase>
+</testsuite>
+<testsuite name="tests\api\booking-update.spec.ts" timestamp="2026-11-27T15:24:14.970Z" hostname="api" tests="8" failures="0" skipped="0" time="6.836" errors="0">
+<testcase name="PUT /booking/:id › atualiza a reserva inteira com token" classname="tests\api\booking-update.spec.ts" time="1.011">
+</testcase>
+<testcase name="PUT /booking/:id › responde 403 sem token" classname="tests\api\booking-update.spec.ts" time="0.863">
+</testcase>
+<testcase name="PUT /booking/:id › responde 403 com token inválido e não altera a reserva" classname="tests\api\booking-update.spec.ts" time="0.999">
+</testcase>
+<testcase name="PUT /booking/:id › rejeita payload incompleto com 400" classname="tests\api\booking-update.spec.ts" time="0.868">
+</testcase>
+<testcase name="PUT /booking/:id › rejeita JSON malformado com 400" classname="tests\api\booking-update.spec.ts" time="0.832">
+</testcase>
+<testcase name="PUT /booking/:id › responde 404 ao atualizar reserva inexistente" classname="tests\api\booking-update.spec.ts" time="0.569">
+<properties>
+<property name="bug" value="A API responde 405 (Method Not Allowed) para um id que não existe; o esperado é 404.">
+</property>
+<property name="fail" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\artifacts\booking-update-PUT-booking-95ff5-ualizar-reserva-inexistente-api\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="PATCH /booking/:id › altera só os campos enviados" classname="tests\api\booking-update.spec.ts" time="0.841">
+</testcase>
+<testcase name="PATCH /booking/:id › responde 403 sem token" classname="tests\api\booking-update.spec.ts" time="0.853">
+</testcase>
+</testsuite>
+</testsuites>
