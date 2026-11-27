@@ -200,7 +200,7 @@ qualidade (lint + typecheck) ──┬──> api (Playwright, Restful-Booker)
 
 ### Relatório das execuções
 
-Cada execução fica na aba **Actions** do repositório. A [primeira execução](https://github.com/luizhenrisouto/outsera-automation-test/actions/runs/46032009425) passou nos 3 jobs: lint e typecheck, API com 33 cenários e E2E com 19 cenários (os bugs documentados contam como falha esperada).
+Cada execução fica na aba **Actions** do repositório. A [primeira execução](https://github.com/luizhenrisouto/outsera-automation/actions/runs/46048070958) passou nos 4 jobs: lint e typecheck, API com 33 cenários, E2E com 19 cenários (os bugs documentados contam como falha esperada) e a versão curta da carga.
 
 O que cada execução entrega:
 - **Resumo na própria página da execução** (`$GITHUB_STEP_SUMMARY`): a tabela de cenários, positivos e negativos, bugs confirmados e falhas inesperadas, gerada por `scripts/gerar-resumo.mjs`.
