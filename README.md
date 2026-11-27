@@ -6,7 +6,7 @@ Projeto da avaliação técnica de automação de testes da Outsera. Uma stack s
 |---|---|
 | 1. Testes automatizados de API | ✅ Entregue |
 | 2. Testes E2E com Cucumber | ✅ Entregue |
-| 3. Pipeline de CI/CD | Em andamento |
+| 3. Pipeline de CI/CD | ✅ Entregue |
 | 4. Testes de carga (opcional) | Em andamento |
 | 5. Testes mobile (opcional) | Em andamento |
 
@@ -185,7 +185,9 @@ qualidade (lint + typecheck) ──┬──> api (Playwright, Restful-Booker)
 
 ### Relatório das execuções
 
-Cada execução fica na aba **Actions** do repositório:
+Cada execução fica na aba **Actions** do repositório. A [primeira execução](https://github.com/luizhenrisouto/outsera-automation-test/actions/runs/46032009425) passou nos 3 jobs: lint e typecheck, API com 33 cenários e E2E com 19 cenários (os bugs documentados contam como falha esperada).
+
+O que cada execução entrega:
 - **Resumo na própria página da execução** (`$GITHUB_STEP_SUMMARY`): a tabela de cenários, positivos e negativos, bugs confirmados e falhas inesperadas, gerada por `scripts/gerar-resumo.mjs`.
 - **Artefatos para download** (`relatorio-api` e `relatorio-e2e`, guardados por 14 dias): relatório HTML do Playwright, JUnit, JSON e, no E2E, os prints de todos os cenários e vídeo e trace dos que falharem.
 
