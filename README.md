@@ -8,7 +8,9 @@ Projeto da avaliação técnica de automação de testes da Outsera. Uma stack s
 | 2. Testes E2E com Cucumber | ✅ Entregue |
 | 3. Pipeline de CI/CD | ✅ Entregue |
 | 4. Testes de carga (opcional) | ✅ Entregue |
-| 5. Testes mobile (opcional) | Em andamento |
+| 5. Testes mobile (opcional) | Não incluído (veja abaixo) |
+
+O bloco 5 (mobile com Appium) é opcional e ficou de fora desta entrega: priorizei profundidade nos blocos de API, E2E, pipeline e carga, que são o foco da vaga (automação web com Playwright). A estrutura do projeto e do pipeline comporta um job de mobile sem mudanças nos demais.
 
 ## Versões utilizadas
 
@@ -194,7 +196,7 @@ qualidade (lint + typecheck) ──┬──> api (Playwright, Restful-Booker)
 - **Execução eficiente.** Cache do npm e do Chromium (chave pela versão do Playwright), `npm ci` para instalação reproduzível, e um commit novo na mesma branch cancela a execução anterior.
 - **Comportamento de CI no Playwright.** Com `CI=true`, o `playwright.config.ts` liga 1 retry (o resumo marca o teste como "Instável" se só passar no retry) e proíbe `test.only` esquecido.
 - **Carga.** O job `carga` roda a cada commit numa versão curta (50 usuários, 30 s) que valida o script e os critérios de aceite; a carga completa (500 usuários por 5 min) roda sob demanda, marcando `carga_completa` no *Run workflow*.
-- **Mobile.** O job de mobile entra no pipeline junto com o bloco 5.
+- **Mobile.** O enunciado pede API, E2E e mobile no pipeline; o mobile (bloco 5, opcional) não foi incluído nesta entrega, então o pipeline cobre API, E2E e carga.
 
 ### Relatório das execuções
 
