@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      carga_completa:
+        description: 'Rodar a carga completa (500 usuários por 5 minutos) em vez da versão curta'
+        type: boolean
+        default: false
 
 # Um commit novo na mesma branch cancela a execução anterior, que ficou obsoleta.
 concurrency:
@@ -100,4 +105,38 @@ jobs:
         with:
           name: relatorio-e2e
           path: reports/
+          retention-days: 14
+
+  carga:
+    name: Teste de carga (k6)
+    needs: qualidade
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      # A cada commit roda uma versão curta, que valida o script e os critérios de aceite.
+      # A carga completa (500 usuários por 5 minutos) roda sob demanda, pelo workflow_dispatch.
+      VUS: ${{ inputs.carga_completa && '500' || '50' }}
+      DURACAO: ${{ inputs.carga_completa && '5m' || '30s' }}
+      RAMPA: ${{ inputs.carga_completa && '30s' || '10s' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - uses: grafana/setup-k6-action@v1
+      - name: Executar o teste de carga contra a API mock
+        run: node scripts/rodar-carga.mjs
+      - name: Resumo da execução
+        if: ${{ !cancelled() && hashFiles('reports/load/resumo.md') != '' }}
+        run: cat reports/load/resumo.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Publicar relatórios
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-carga
+          path: |
+            reports/load/relatorio.html
+            reports/load/resumo.md
+            reports/load/summary.json
+            reports/load/janelas.md
           retention-days: 14

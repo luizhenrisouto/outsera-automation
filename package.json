@@ -12,7 +12,11 @@
     "check": "npm run lint && npm run typecheck",
     "resumo": "node scripts/gerar-resumo.mjs",
     "evidencias:api": "node scripts/salvar-evidencias.mjs api",
-    "evidencias:e2e": "node scripts/salvar-evidencias.mjs e2e"
+    "evidencias:e2e": "node scripts/salvar-evidencias.mjs e2e",
+    "mock:api": "node load/mock-api/server.mjs",
+    "test:load": "node scripts/rodar-carga.mjs",
+    "test:load:paginada": "node scripts/rodar-carga.mjs --paginada",
+    "evidencias:carga": "node scripts/salvar-evidencias.mjs carga"
   },
   "keywords": [],
   "author": "",

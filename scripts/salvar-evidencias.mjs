@@ -1,5 +1,5 @@
 // Copia o relatório da última execução para evidencias/<bloco>, que fica versionado no repositório.
-// Uso: node scripts/salvar-evidencias.mjs api|e2e
+// Uso: node scripts/salvar-evidencias.mjs api|e2e|carga
 // No E2E também copia os prints de cada cenário para evidencias/e2e/prints, com o nome do cenário.
 import { cpSync, rmSync, mkdirSync, existsSync, readFileSync } from 'node:fs';
 
@@ -8,20 +8,29 @@ const destino = `evidencias/${bloco}`;
 rmSync(destino, { recursive: true, force: true });
 mkdirSync(destino, { recursive: true });
 
-for (const [origem, alvo] of [
-  ['reports/html', `${destino}/html`],
-  ['reports/resumo.md', `${destino}/resumo.md`],
-  ['reports/junit/results.xml', `${destino}/junit.xml`],
-]) {
+const arquivos =
+  bloco === 'carga'
+    ? [
+        ['reports/load', 'sem-paginacao'],
+        ['reports/load-paginada', 'com-paginacao'],
+      ].flatMap(([origem, nome]) =>
+        ['relatorio.html', 'resumo.md', 'janelas.md', 'summary.json'].map((f) => [`${origem}/${f}`, `${destino}/${nome}/${f}`]),
+      )
+    : [
+        ['reports/html', `${destino}/html`],
+        ['reports/resumo.md', `${destino}/resumo.md`],
+        ['reports/junit/results.xml', `${destino}/junit.xml`],
+      ];
+for (const [origem, alvo] of arquivos) {
   if (existsSync(origem)) cpSync(origem, alvo, { recursive: true });
 }
 
 const json = 'reports/json/results.json';
-if (existsSync(json)) {
+if (bloco !== 'carga' && existsSync(json)) {
   const slug = (texto) =>
     texto
       .normalize('NFD')
-      .replace(/[̀-ͯ]/g, '')
+      .replace(/\p{Diacritic}/gu, '')
       .replace(/[^\w]+/g, '-')
       .replace(/^-|-$/g, '')
       .toLowerCase();

@@ -7,7 +7,7 @@ Projeto da avaliação técnica de automação de testes da Outsera. Uma stack s
 | 1. Testes automatizados de API | ✅ Entregue |
 | 2. Testes E2E com Cucumber | ✅ Entregue |
 | 3. Pipeline de CI/CD | ✅ Entregue |
-| 4. Testes de carga (opcional) | Em andamento |
+| 4. Testes de carga (opcional) | ✅ Entregue |
 | 5. Testes mobile (opcional) | Em andamento |
 
 ## Versões utilizadas
@@ -19,6 +19,7 @@ Projeto da avaliação técnica de automação de testes da Outsera. Uma stack s
 | TypeScript | 6.0.3 |
 | Zod (validação de contrato) | 4.6.7 |
 | playwright-bdd (Cucumber/Gherkin no Playwright) | 9.2.1 |
+| k6 (carga) | 2.4.0 |
 | Chromium do Playwright (E2E) | instalado por `npx playwright install chromium` |
 | ESLint + typescript-eslint + eslint-plugin-playwright | 10.15.0 / 8.74.0 / 2.12.2 |
 
@@ -35,6 +36,8 @@ Os testes de API não precisam de navegador. Para o E2E, instale o Chromium do P
 npx playwright install chromium
 ```
 
+Para a carga, instale o [k6](https://grafana.com/docs/k6/latest/set-up/install-k6/) (no Windows: `winget install GrafanaLabs.k6`).
+
 ## Como executar e gerar o relatório
 
 ```bash
@@ -47,7 +50,13 @@ npm run evidencias:api # copia o relatório da última execução para evidencia
 npm run test:e2e       # gera os specs a partir das features (bddgen) e executa a suíte E2E
 npm run resumo         # o mesmo resumo, agora da execução E2E
 npm run evidencias:e2e # copia relatório, resumo e prints de cada cenário para evidencias/e2e
+
+npm run test:load            # sobe a API mock, roda o k6 (500 usuários por 5 min) e gera os relatórios em reports/load
+npm run test:load:paginada   # a mesma carga com a listagem paginada no mock (correção proposta)
+npm run evidencias:carga     # copia os relatórios das duas rodadas para evidencias/carga
 ```
+
+Para uma carga curta (validar o script): `VUS=50 DURACAO=30s npm run test:load`.
 
 Filtros úteis:
 
@@ -85,6 +94,8 @@ A última execução de cada bloco fica versionada em [`evidencias/api`](evidenc
 ├── tests/api/                     # specs por recurso e método HTTP
 ├── tests/e2e/features/            # cenários em Gherkin, em português (login.feature, checkout.feature)
 ├── tests/e2e/steps/               # definições dos passos e hook que anota os bugs
+├── load/mock-api/server.mjs       # API mock (rotas do Restful-Booker), alvo da carga
+├── load/k6/carga.js               # script k6: cenário, jornada, métricas, critérios de aceite e relatório
 ├── scripts/                       # resumo em Markdown e cópia das evidências
 ├── evidencias/                    # relatórios da última execução, versionados
 └── .env.example                   # URLs e credenciais públicas da API e dos sites de demonstração
@@ -174,13 +185,15 @@ Workflow em [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Roda a cada 
 
 ```
 qualidade (lint + typecheck) ──┬──> api (Playwright, Restful-Booker)
-                               └──> e2e (Cucumber/playwright-bdd, Chromium)
+                               ├──> e2e (Cucumber/playwright-bdd, Chromium)
+                               └──> carga (k6 contra a API mock)
 ```
 
 - **Gate de qualidade primeiro.** Lint e typecheck rodam antes; se falharem, as suítes nem começam.
 - **API e E2E em paralelo**, em jobs separados: uma falha numa suíte não esconde o resultado da outra, e cada uma tem o seu relatório.
 - **Execução eficiente.** Cache do npm e do Chromium (chave pela versão do Playwright), `npm ci` para instalação reproduzível, e um commit novo na mesma branch cancela a execução anterior.
 - **Comportamento de CI no Playwright.** Com `CI=true`, o `playwright.config.ts` liga 1 retry (o resumo marca o teste como "Instável" se só passar no retry) e proíbe `test.only` esquecido.
+- **Carga.** O job `carga` roda a cada commit numa versão curta (50 usuários, 30 s) que valida o script e os critérios de aceite; a carga completa (500 usuários por 5 min) roda sob demanda, marcando `carga_completa` no *Run workflow*.
 - **Mobile.** O job de mobile entra no pipeline junto com o bloco 5.
 
 ### Relatório das execuções
@@ -192,6 +205,55 @@ O que cada execução entrega:
 - **Artefatos para download** (`relatorio-api` e `relatorio-e2e`, guardados por 14 dias): relatório HTML do Playwright, JUnit, JSON e, no E2E, os prints de todos os cenários e vídeo e trace dos que falharem.
 
 Os bugs documentados (`test.fail()` na API e `@fail` no E2E) não quebram o pipeline: ele só fica vermelho com falha inesperada ou bug corrigido sem revisão do teste.
+
+## 4. Testes de carga (k6)
+
+**Alvo:** uma API mock em Node ([`load/mock-api/server.mjs`](load/mock-api/server.mjs)) com as rotas do Restful-Booker (`/auth`, `/booking`, `/booking/:id`), em memória. O enunciado permite API de mock, e 500 usuários por 5 minutos contra o serviço gratuito real seria sobrecarregar um serviço de terceiros e medir a internet, não a API. O mock roda local e no CI, e o resultado é reproduzível.
+
+**Script** ([`load/k6/carga.js`](load/k6/carga.js)):
+- **Cenário:** executor `ramping-vus`, rampa de 30 s até 500 usuários, **500 usuários simultâneos sustentados por 5 minutos** e descida de 15 s.
+- **Jornada de cada usuário:** login uma vez e, a cada iteração, listar reservas, consultar uma reserva e criar outra, com 1 a 2 s de tempo de pensar entre as jornadas.
+- **Métricas:** as HTTP padrão do k6, separadas por endpoint com a tag `endpoint`, mais métricas próprias: `tempo_jornada`, `reservas_criadas` e `tamanho_listagem_kb`.
+- **Critérios de aceite (thresholds):** falhas HTTP < 1%, checks > 99%, p95 < 500 ms e p99 < 1 s no geral, e p95 por endpoint. Se algum for violado, o k6 termina com erro.
+- **Relatórios:** painel web do k6 exportado em HTML (gráficos ao longo do tempo), resumo em Markdown, `summary.json` e a evolução por janela de 30 s (`janelas.md`), calculada das métricas brutas por [`scripts/analisar-carga.mjs`](scripts/analisar-carga.mjs).
+
+### Resultado e análise
+
+Evidências em [`evidencias/carga`](evidencias/carga): uma pasta por rodada, cada uma com `relatorio.html`, `resumo.md`, `janelas.md` e `summary.json`.
+
+| Rodada | Requisições (média/s) | p95 geral | p99 geral | Falhas | Critérios |
+|---|---|---|---|---|---|
+| Listagem sem paginação, como a API real ([resumo](evidencias/carga/sem-paginacao/resumo.md)) | 190.452 (550/s) | 1.584 ms | 2.196 ms | 0% | ❌ 5 de 8 violados |
+| Listagem paginada no mock ([resumo](evidencias/carga/com-paginacao/resumo.md)) | 322.266 (930/s) | 5,5 ms | 23,8 ms | 0% | ✅ todos aprovados |
+
+**Gargalo encontrado: a listagem `GET /booking` sem paginação.** Ela devolve todas as reservas, e a própria carga cria cerca de 180 reservas por segundo. A evolução por janela ([`janelas.md`](evidencias/carga/sem-paginacao/janelas.md)) mostra a causa e o efeito:
+
+| Janela | Req/s | p95 `GET /booking` | p95 `GET /booking/:id` | Resposta da listagem |
+|---|---|---|---|---|
+| 30-60 s | 1.002 | 3,6 ms | 2,9 ms | 286 KB |
+| 90-120 s | 712 | 698 ms | 681 ms | 611 KB |
+| 180-210 s | 477 | 1.345 ms | 1.346 ms | 909 KB |
+| 300-330 s | 341 | 2.391 ms | 2.393 ms | 1.200 KB |
+
+O que os números mostram:
+- **A resposta cresce sem limite** (de 1 KB para 1,2 MB), e o tempo de resposta cresce junto.
+- **O gargalo contamina a API inteira.** `GET /booking/:id` é uma busca direta, sem custo que cresça, e degradou igual à listagem. O Node atende tudo num único processo: enquanto ele percorre e serializa a lista enorme, as outras requisições esperam na fila.
+- **A vazão cai com o mesmo número de usuários**: de ~1.000 para ~340 req/s. Com 500 usuários fixos, cada um espera mais por resposta e faz menos requisições. Um monitor só de erros não veria nada: **0% de falhas HTTP**, a API só fica lenta.
+
+**Confirmação da causa.** Rodei a mesma carga com a listagem paginada no mock (`npm run test:load:paginada`, 100 itens por página):
+- Numa primeira versão, a paginação só cortava a resposta depois de percorrer todas as reservas. A degradação demorou mais para começar (~2,5 min em vez de ~1 min), mas veio do mesmo jeito, porque o trabalho por requisição continuava proporcional ao total de reservas.
+- Com a paginação parando de percorrer ao completar a página, a API ficou estável os 5 minutos: ~1.000 req/s do início ao fim, p95 abaixo de 8 ms na maioria das janelas (com um pico de 41 ms entre 60 e 90 s e 12 ms na janela seguinte, que se normalizou sozinho) e todos os critérios aprovados.
+
+**Recomendações para a API:**
+1. Paginar a listagem (`page`/`size` ou cursor), com tamanho máximo de página, sem percorrer a coleção inteira a cada chamada.
+2. Não deixar uma rota pesada bloquear as leves: mais de um processo (cluster ou réplicas atrás de um balanceador) e um limite de tempo por requisição.
+3. Monitorar latência (p95/p99 por endpoint) e não só taxa de erro, já que aqui a degradação veio com 0% de falhas.
+4. Incluir esta carga no pipeline como regressão de performance (a versão curta já roda a cada commit).
+
+**Limitações:**
+- O k6 e o mock rodaram na mesma máquina (12 núcleos), disputando CPU. Os números absolutos valem para esta máquina; o que importa é a tendência e a comparação entre as rodadas.
+- O mock guarda tudo em memória e reproduz o comportamento da listagem, não a infraestrutura da API real (banco, rede, Heroku).
+- Para o k6 não virar ele mesmo o gargalo, o script não converte a lista de JSON: confere o status e o formato e mede o tamanho.
 
 ## Uso de IA
 

@@ -1,0 +1,432 @@
+{
+  "root_group": {
+    "name": "",
+    "path": "",
+    "id": "d41d8cd98f00b204e9800998ecf8427e",
+    "groups": [
+      {
+        "checks": [
+          {
+            "name": "login: status 200",
+            "path": "::login::login: status 200",
+            "id": "6af8144a31ca5fa4f7d090b105723f90",
+            "passes": 500,
+            "fails": 0
+          },
+          {
+            "name": "login: devolve token",
+            "path": "::login::login: devolve token",
+            "id": "cb9e29103469a7ff02911c79d70c0650",
+            "passes": 500,
+            "fails": 0
+          }
+        ],
+        "name": "login",
+        "path": "::login",
+        "id": "a7d10b3a6c9a385ee254f0dbc7f9c8c9",
+        "groups": []
+      },
+      {
+        "name": "consultar reservas",
+        "path": "::consultar reservas",
+        "id": "d8938f96c6d318da5e2709725e1c315d",
+        "groups": [],
+        "checks": [
+          {
+            "name": "listagem: status 200",
+            "path": "::consultar reservas::listagem: status 200",
+            "id": "ef9d73acc5fdd129085505df2b4fe66d",
+            "passes": 107255,
+            "fails": 0
+          },
+          {
+            "passes": 107255,
+            "fails": 0,
+            "name": "listagem: devolve uma lista",
+            "path": "::consultar reservas::listagem: devolve uma lista",
+            "id": "da5bb8bf9ce046673d7da45a4cc450c6"
+          },
+          {
+            "fails": 0,
+            "name": "detalhe: status 200",
+            "path": "::consultar reservas::detalhe: status 200",
+            "id": "62c78920893df85ff1a2f85c44a2b793",
+            "passes": 107255
+          },
+          {
+            "name": "detalhe: tem firstname",
+            "path": "::consultar reservas::detalhe: tem firstname",
+            "id": "b1aff52ac3d06e359fc509530d025a65",
+            "passes": 107255,
+            "fails": 0
+          }
+        ]
+      },
+      {
+        "name": "criar reserva",
+        "path": "::criar reserva",
+        "id": "b4ca77f70b0134b297c2aca8ca98138c",
+        "groups": [],
+        "checks": [
+          {
+            "path": "::criar reserva::criação: status 200",
+            "id": "66a41a383f88e781f87452637cc2a494",
+            "passes": 107255,
+            "fails": 0,
+            "name": "criação: status 200"
+          },
+          {
+            "fails": 0,
+            "name": "criação: devolve bookingid",
+            "path": "::criar reserva::criação: devolve bookingid",
+            "id": "b7532348d7dc8aac3f5238aca5777ca6",
+            "passes": 107255
+          }
+        ]
+      }
+    ],
+    "checks": []
+  },
+  "options": {
+    "summaryTrendStats": [
+      "avg",
+      "min",
+      "med",
+      "p(90)",
+      "p(95)",
+      "p(99)",
+      "max"
+    ],
+    "summaryTimeUnit": "",
+    "noColor": false
+  },
+  "state": {
+    "isStdOutTTY": false,
+    "isStdErrTTY": false,
+    "testRunDurationMs": 346666.6922
+  },
+  "metrics": {
+    "vus": {
+      "type": "gauge",
+      "contains": "default",
+      "values": {
+        "value": 6,
+        "min": 6,
+        "max": 500
+      }
+    },
+    "iteration_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(99)": 1997.671014,
+        "max": 2592.8484,
+        "avg": 1507.0392415878166,
+        "min": 1001.2758,
+        "med": 1506.2023,
+        "p(90)": 1906.8277200000002,
+        "p(95)": 1956.8727999999999
+      }
+    },
+    "http_req_sending": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(95)": 0,
+        "p(99)": 0.6907,
+        "max": 19.854,
+        "avg": 0.030190959642034745,
+        "min": 0,
+        "med": 0,
+        "p(90)": 0
+      }
+    },
+    "http_reqs": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 322266,
+        "rate": 929.6133930688598
+      }
+    },
+    "data_sent": {
+      "type": "counter",
+      "contains": "data",
+      "values": {
+        "count": 65050385,
+        "rate": 187645.32752535376
+      }
+    },
+    "tamanho_listagem_kb": {
+      "type": "trend",
+      "contains": "default",
+      "values": {
+        "p(95)": 1.6533203125,
+        "p(99)": 1.6533203125,
+        "max": 1.6533203125,
+        "avg": 1.6531220408576524,
+        "min": 0.822265625,
+        "med": 1.6533203125,
+        "p(90)": 1.6533203125
+      }
+    },
+    "http_req_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "med": 1.0103,
+        "p(90)": 2.6,
+        "p(95)": 5.543775,
+        "p(99)": 23.795829999999818,
+        "max": 261.0803,
+        "avg": 2.0908544326736576,
+        "min": 0
+      },
+      "thresholds": {
+        "p(95)<500": {
+          "ok": true
+        },
+        "p(99)<1000": {
+          "ok": true
+        }
+      }
+    },
+    "http_req_duration{endpoint:GET /booking/:id}": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "min": 0,
+        "med": 0.7843,
+        "p(90)": 2.5832,
+        "p(95)": 5.5604,
+        "p(99)": 23.206427999999946,
+        "max": 224.2828,
+        "avg": 2.006261152393795
+      },
+      "thresholds": {
+        "p(95)<300": {
+          "ok": true
+        }
+      }
+    },
+    "tempo_jornada": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(95)": 18,
+        "p(99)": 72,
+        "max": 600,
+        "avg": 7.133494941960747,
+        "min": 0,
+        "med": 4,
+        "p(90)": 9
+      }
+    },
+    "vus_max": {
+      "contains": "default",
+      "values": {
+        "value": 500,
+        "min": 500,
+        "max": 500
+      },
+      "type": "gauge"
+    },
+    "http_req_duration{endpoint:GET /booking}": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 2.274847496154007,
+        "min": 0,
+        "med": 1.0403,
+        "p(90)": 2.5502600000000006,
+        "p(95)": 5.658159999999998,
+        "p(99)": 26.9985279999999,
+        "max": 261.0803
+      },
+      "thresholds": {
+        "p(95)<500": {
+          "ok": true
+        }
+      }
+    },
+    "http_req_duration{expected_response:true}": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "min": 0,
+        "med": 1.0103,
+        "p(90)": 2.6,
+        "p(95)": 5.543775,
+        "p(99)": 23.795829999999818,
+        "max": 261.0803,
+        "avg": 2.0908544326736576
+      }
+    },
+    "http_req_tls_handshaking": {
+      "values": {
+        "p(90)": 0,
+        "p(95)": 0,
+        "p(99)": 0,
+        "max": 0,
+        "avg": 0,
+        "min": 0,
+        "med": 0
+      },
+      "type": "trend",
+      "contains": "time"
+    },
+    "http_req_connecting": {
+      "contains": "time",
+      "values": {
+        "p(99)": 0,
+        "max": 9.6909,
+        "avg": 0.0017999497309675871,
+        "min": 0,
+        "med": 0,
+        "p(90)": 0,
+        "p(95)": 0
+      },
+      "type": "trend"
+    },
+    "data_received": {
+      "contains": "data",
+      "values": {
+        "count": 283671455,
+        "rate": 818282.9829995418
+      },
+      "type": "counter"
+    },
+    "reservas_criadas": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 107255,
+        "rate": 309.38940028920376
+      }
+    },
+    "http_req_duration{endpoint:POST /booking}": {
+      "contains": "time",
+      "values": {
+        "avg": 1.9959212568179017,
+        "min": 0,
+        "med": 1.0484,
+        "p(90)": 2.6977,
+        "p(95)": 5.427159999999998,
+        "p(99)": 21.39901199999998,
+        "max": 252.8978
+      },
+      "thresholds": {
+        "p(95)<300": {
+          "ok": true
+        }
+      },
+      "type": "trend"
+    },
+    "http_req_failed": {
+      "values": {
+        "rate": 0,
+        "passes": 0,
+        "fails": 322266
+      },
+      "thresholds": {
+        "rate<0.01": {
+          "ok": true
+        }
+      },
+      "type": "rate",
+      "contains": "default"
+    },
+    "http_req_blocked": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(99)": 0.5263,
+        "max": 57.7733,
+        "avg": 0.00932698888495838,
+        "min": 0,
+        "med": 0,
+        "p(90)": 0,
+        "p(95)": 0
+      }
+    },
+    "http_req_duration{endpoint:POST /auth}": {
+      "contains": "time",
+      "values": {
+        "avg": 1.134851799999999,
+        "min": 0,
+        "med": 0.7318,
+        "p(90)": 1.5409,
+        "p(95)": 1.8138399999999981,
+        "p(99)": 3.778815999999976,
+        "max": 94.649
+      },
+      "thresholds": {
+        "p(95)<300": {
+          "ok": true
+        }
+      },
+      "type": "trend"
+    },
+    "iterations": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "rate": 309.38940028920376,
+        "count": 107255
+      }
+    },
+    "http_req_receiving": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(99)": 1.0514349999999977,
+        "max": 90.4053,
+        "avg": 0.12859452191667556,
+        "min": 0,
+        "med": 0,
+        "p(90)": 0.5771,
+        "p(95)": 0.663
+      }
+    },
+    "group_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(95)": 8.807634999999957,
+        "p(99)": 37.74609300000001,
+        "max": 497.5652,
+        "avg": 3.535360862750634,
+        "min": 0,
+        "med": 1.6963,
+        "p(90)": 4.53331
+      }
+    },
+    "checks": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "fails": 0,
+        "rate": 1,
+        "passes": 644530
+      },
+      "thresholds": {
+        "rate>0.99": {
+          "ok": true
+        }
+      }
+    },
+    "http_req_waiting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "max": 261.0803,
+        "avg": 1.9320689511149534,
+        "min": 0,
+        "med": 0.6586,
+        "p(90)": 2.38715,
+        "p(95)": 5.2605,
+        "p(99)": 23.4081
+      }
+    }
+  }
+}
